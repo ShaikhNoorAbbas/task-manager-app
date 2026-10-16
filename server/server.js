@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import dns from "dns";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
+import User from "./models/User.js";
 
 //Allowing dotenv to process 
 dotenv.config();
@@ -26,8 +27,8 @@ app.get('/api/health', (req, res) => {
     res.status(200).json({
         success: true,
         message: "MERN Task API is Running"
-    })
-})
+    });
+});
 
 
 //Starting the Server
@@ -36,9 +37,9 @@ const port = process.env.port || 5000;
 const startServer = async () => {
     await connectDB();
     app.listen(port, () => {
-        console.log(`Server is Running on port: ${port}`)
-    })
-}
+        console.log(`Server is Running on port: ${port}`);
+    });
+};
 
 
 startServer();
