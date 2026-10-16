@@ -4,6 +4,7 @@ import connectDB from "./config/db.js";
 import dns from "dns";
 import dotenv from "dotenv";
 import User from "./models/User.js";
+import Task from "./models/Task.js";
 
 //Allowing dotenv to process 
 dotenv.config();
