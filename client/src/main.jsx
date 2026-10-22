@@ -1,10 +1,39 @@
-import { StrictMode } from 'react'
+import { Children, StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/js/bootstrap.bundle.js"
 import './index.css'
-import App from './App.jsx'
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Layout from './layout/Layout.jsx'
+import Signin from './pages/signin/Signin.jsx'
+import Signup from './pages/signup/Signup.jsx'
+import Dashboard from './pages/dashboard/Dashboard.jsx'
+
+let routes = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <Signin />
+      },
+      {
+        path: "signin",
+        element: <Signin />
+      },
+      {
+        path: "signup",
+        element: <Signup />
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />
+      }
+    ]
+  }
+])
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  <RouterProvider router={routes} />
 )
