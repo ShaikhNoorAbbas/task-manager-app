@@ -1,4 +1,5 @@
 import { useFormik } from "formik";
+import { signupvalidationSchema } from "../../schema/signupSchema";
 export default function Signup() {
     const initialValue = {
         name: "",
@@ -11,7 +12,8 @@ export default function Signup() {
     }
     const { values, handleChange, handleSubmit, errors, touched, handleReset, handleBlur } = useFormik({
         initialValues: initialValue,
-        onSubmit: submitHandler
+        onSubmit: submitHandler,
+        validationSchema: signupvalidationSchema
     });
     return (
         <>
@@ -21,17 +23,20 @@ export default function Signup() {
                     {/* username */}
                     <div>
                         <label htmlFor="username">Username</label>
-                        <input value={values.name} onChange={handleChange} onBlur={handleBlur} type="text" placeholder="Enter username" id="username" className="form-control" name="name" />
+                        <input value={values.name} onChange={handleChange} onBlur={handleBlur} className={`form-control ${touched.name && errors.name ? 'is-invalid' : null}`} type="text" placeholder="Enter username" id="username" name="name" />
+                        {touched.name && errors.name && <span className="invalid-feedback">{errors.name}</span>}
                     </div>
                     {/* email */}
                     <div>
                         <label htmlFor="email">Email: </label>
-                        <input type="text" onChange={handleChange} name="email" onBlur={handleBlur} value={values.email} placeholder="Enter Email" className="form-control" id="email" />
+                        <input type="text" onChange={handleChange} name="email" onBlur={handleBlur} value={values.email} placeholder="Enter Email" id="email" className={`form-control ${touched.email && errors.email ? 'is-invalid' : null}`} />
+                        {touched.email && errors.email && <span className="invalid-feedback">{errors.email}</span>}
                     </div>
                     {/* password */}
                     <div>
                         <label htmlFor="password">Password: </label>
-                        <input type="text" onChange={handleChange} name="password" onBlur={handleBlur} value={values.password} placeholder="Enter password" className="form-control" id="password" />
+                        <input type="text" onChange={handleChange} name="password" onBlur={handleBlur} value={values.password} placeholder="Enter password" className={`form-control ${touched.password && errors.password ? 'is-invalid' : null}`} id="password" />
+                        {touched.password && errors.password && <span className="invalid-feedback">{errors.password}</span>}
                     </div>
                     {/* action Buttons */}
                     <div>
