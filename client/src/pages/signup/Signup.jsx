@@ -1,5 +1,6 @@
 import { useFormik } from "formik";
 import { signupvalidationSchema } from "../../schema/signupSchema";
+import { Link } from "react-router-dom";
 export default function Signup() {
     const initialValue = {
         name: "",
@@ -15,11 +16,12 @@ export default function Signup() {
         onSubmit: submitHandler,
         validationSchema: signupvalidationSchema
     });
+
     return (
         <>
-            <h1 className="text-center text-primary mt-5">Register User</h1>
-            <section className="card shadow-lg">
-                <form onSubmit={handleSubmit} autoComplete="off" className="d-flex flex-column gap-4 card-body">
+            <section className="card shadow-lg p-4 mt-4">
+                <h3 className="text-center mb-4">Register User</h3>
+                <form onSubmit={handleSubmit} autoComplete="off" className="d-flex flex-column gap-4 card-body ">
                     {/* username */}
                     <div>
                         <label htmlFor="username">Username</label>
@@ -39,9 +41,11 @@ export default function Signup() {
                         {touched.password && errors.password && <span className="invalid-feedback">{errors.password}</span>}
                     </div>
                     {/* action Buttons */}
-                    <div>
-                        <button type="submit" className="btn btn-primary">Submit</button>
-                    </div>
+
+                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <p className="text-center mt- mb-0">
+                        Already have an account? <Link to="/signin">Sign in</Link>
+                    </p>
                 </form>
             </section>
         </>
