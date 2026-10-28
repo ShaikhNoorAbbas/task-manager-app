@@ -1,8 +1,13 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import api from "../../api/api";
+import { useState } from "react";
 const Signin = () => {
+    // state to manage errors and loading state
+    const [serverError, setServerError] = useState("");
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate()
     // 1. Yup Rulebook for Login
     const validationSchema = Yup.object({
         email: Yup.string()
@@ -19,9 +24,30 @@ const Signin = () => {
             password: "",
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
-            console.log("Signin Form Data:", values);
-            formik.handleReset();
+        onSubmit: async (values) => {
+
+            try {
+                setServerError("")
+                setLoading(true)
+                console.log("Signin Form Data:", values);
+
+                const response = await api.post("/api/auth/signin", values)
+                if (response.data.success) {
+                    localStorage.setItem("token", response.data.token)
+                    localStorage.setItem("user", JSON.stringify(response.data.user))
+                    // Navigating to dashboard
+                    navigate('/dashboard')
+                }
+
+            } catch (error) {
+                const message =
+                    error.response?.data?.message || "Login failed. Please try again.";
+                setServerError(message);
+            } finally {
+                formik.handleReset();
+                setLoading(false)
+            }
+
         },
     });
 
@@ -30,7 +56,9 @@ const Signin = () => {
             <div className="col-md-5">
                 <div className="card shadow-lg p-4">
                     <h3 className="text-center mb-4">Sign In</h3>
-
+                    {serverError && (
+                        <div className="alert alert-danger py-2">{serverError}</div>
+                    )}
                     <form className="card-body" onSubmit={formik.handleSubmit}>
                         {/* Email Field */}
                         <div className="mb-3">
@@ -71,8 +99,8 @@ const Signin = () => {
                         </div>
 
                         {/* Submit Button */}
-                        <button type="submit" className="btn btn-success w-100 mt-2">
-                            Sign In
+                        <button disabled={loading} type="submit" className="btn btn-success w-100 mt-2">
+                            {loading ? "Signing In..." : "Sign In"}
                         </button>
                     </form>
 

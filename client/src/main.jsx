@@ -8,6 +8,8 @@ import Layout from './layout/Layout.jsx'
 import Signin from './pages/signin/Signin.jsx'
 import Signup from './pages/signup/Signup.jsx'
 import Dashboard from './pages/dashboard/Dashboard.jsx'
+import ProtectedRoute from './layout/Protected.jsx'
+
 
 let routes = createBrowserRouter([
   {
@@ -28,7 +30,11 @@ let routes = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <Dashboard />
+        element: (
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        )
       }
     ]
   }
