@@ -4,6 +4,7 @@ import connectDB from "./config/db.js";
 import dns from "dns";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
+import taskRoutes from "./routes/taskRoutes.js";
 
 //Allowing dotenv to process 
 dotenv.config();
@@ -32,6 +33,7 @@ app.get('/api/health', (req, res) => {
 // connecting auth routes
 
 app.use('/api/auth', authRoutes);
+app.use('/api/task', taskRoutes);
 
 
 //Starting the Server
