@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import { useState } from "react";
 
-
 export default function Signup() {
 
     const navigate = useNavigate();
@@ -24,9 +23,10 @@ export default function Signup() {
             // Send data to Express
             const response = await api.post("/api/auth/signup", values);
             if (response.data.success) {
-                alert("Account Created Successfully! Please Signin");
+                alert("Account Created Successfully");
                 navigate('/signin');
             }
+
         } catch (error) {
             const message = error.response.data.message || 'Something Went Wrong';
 

@@ -33,7 +33,7 @@ app.get('/api/health', (req, res) => {
 // connecting auth routes
 
 app.use('/api/auth', authRoutes);
-app.use('/api/task', taskRoutes);
+app.use('/api/tasks', taskRoutes);
 
 
 //Starting the Server
