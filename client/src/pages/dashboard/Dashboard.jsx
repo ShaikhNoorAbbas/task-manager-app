@@ -18,21 +18,12 @@ export default function Dashboard() {
   // Tracks which task is being edited (null = Create mode)
   const [editingTaskId, setEditingTaskId] = useState(null);
 
-  const getAuthHeader = () => {
-    const token = localStorage.getItem("token");
-    return {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-  };
-
   // 1. READ: Fetch all tasks
   async function fetchTasks() {
     try {
       setFetching(true);
       setServerError("");
-      const response = await api.get("/api/tasks", getAuthHeader());
+      const response = await api.get("/api/tasks");
       if (response.data.success) {
         setTasks(response.data.tasks);
       }
@@ -62,11 +53,7 @@ export default function Dashboard() {
 
       if (editingTaskId) {
         // UPDATE existing task (PUT)
-        const response = await api.put(
-          `/api/tasks/${editingTaskId}`,
-          values,
-          getAuthHeader(),
-        );
+        const response = await api.put(`/api/tasks/${editingTaskId}`, values);
 
         if (response.data.success) {
           setTasks(
@@ -79,7 +66,7 @@ export default function Dashboard() {
         }
       } else {
         // CREATE new task (POST)
-        const response = await api.post("/api/tasks", values, getAuthHeader());
+        const response = await api.post("/api/tasks", values);
 
         if (response.data.success) {
           setTasks([response.data.task, ...tasks]);
@@ -130,7 +117,7 @@ export default function Dashboard() {
   const handleDeleteClick = async (id) => {
     try {
       setServerError("");
-      const response = await api.delete(`/api/tasks/${id}`, getAuthHeader());
+      const response = await api.delete(`/api/tasks/${id}`);
 
       if (response.data.success) {
         setTasks(tasks.filter((task) => task._id !== id));
