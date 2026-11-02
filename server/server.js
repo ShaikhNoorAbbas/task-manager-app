@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 
-//Allowing dotenv to process 
+//Allowing dotenv to process
 dotenv.config();
 
 // Allowing MongoDB to look for data in global State
@@ -14,37 +14,35 @@ dns.setServers(["8.8.8.8", "8.8.4.4", "1.1.1.1", "1.0.0.1"]);
 
 const app = express();
 
-
-// Allowing FrontEnd to connect with backend Code 
+// Allowing FrontEnd to connect with backend Code
 app.use(cors());
 
 // Allowing express to Read JSON data
 app.use(express.json());
 
-
-//creating our first App 
-app.get('/api/health', (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: "MERN Task API is Running"
-    });
+//creating our first App
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "MERN Task API is Running",
+  });
 });
 
 // connecting auth routes
 
-app.use('/api/auth', authRoutes);
-app.use('/api/tasks', taskRoutes);
-
+app.use("/api/auth", authRoutes);
+app.use("/api/tasks", taskRoutes);
 
 //Starting the Server
 const port = process.env.port || 5000;
 
 const startServer = async () => {
-    await connectDB();
-    app.listen(port, () => {
-        console.log(`Server is Running on port: ${port} \n http://localhost:${port}`);
-    });
+  await connectDB();
+  app.listen(port, () => {
+    console.log(
+      `Server is Running on port: ${port} \n http://localhost:${port}`,
+    );
+  });
 };
-
 
 startServer();
